@@ -1,0 +1,81 @@
+# project 10-2 , 전화번호 가려주는 프로그램
+import re
+
+def blind_num(nums):
+    answer = nums[:-5] + '#####'
+    #슬라이싱 사용, 010-12345-12345 일 때, 인덱싱 음수임에도 불구하고, 중간자리가 바뀌어버림, 아직 replace를 이용한 방법 찾지 못함
+    #answer = nums.replace(nums[-5:],'#####',1)
+    #replace는 문자열을 변경 사용 방법은 '변수. replace(old, new, [count])' 형식으로 사용한다.
+    #old : 현재 문자열에서 변경하고 싶은 문자
+    #new: 새로 바꿀 문자
+    #count: 변경할 횟수. 횟수는 입력하지 않으면 old의 문자열 전체를 변경한다. 기본값은 전체를 의미하는 count=-1로 지정되어있다. 
+    return answer
+
+
+phone_regex = re.compile("^\d{3}-\d{5}-\d{5}$") #정규식 표현 연습 ,3자리 5자리 5자리,^:문자열의 시작
+
+#True 대문자 쓰기 중요,False
+while True:
+    nums = input ("휴대폰 입력 (ex: 010-12345-12345):")
+    nums_no_space = re.sub("\s", "", nums) # \s space -> "" 공백문자열을 없애기 "010-15125-12321          "같은 공백 제거
+    print(nums_no_space)
+
+    
+    valid = phone_regex.search(nums_no_space)
+    print(valid)
+
+    if valid:
+        print("유효한 전화번호")
+        print("가려진 전화번호=", blind_num(nums_no_space))
+        #break 임의 값 반복 입력 쉽게 주석처리
+        
+    else:
+        print("유효하지 않은 전화번호, 다시 입력하세요")
+
+
+a = [[1, 2], 3, [[4, 5, 6], 7], 8,11] # 5bit? , 첫번째 비트부터( for 1 일 때,) 
+#b=[0]
+#b + [1,2]
+#[0, 1, 2] , 대괄호 한번 빠지고 그대로 추가된다.
+#b + [[4,5,6],7]
+#[0, [4, 5, 6], 7]
+#type(a) <class 'list'>
+#object 
+def flatten(data):
+    output = []
+    
+    for i in data:
+        print(i,'for')
+        if type(i) == list :
+            #print(type(i))
+            #print(flatten(i))
+            output += flatten(i) # output = output + flatten(i),
+            #print(i)
+            #print(i,"if")
+            
+        else:
+            
+            output.append(i) #list가 아닌 경우 그 리스트를 append한다. 시각화 참조
+            #print(i)
+            #print(output,"else")
+            
+    return output
+
+print(flatten(a))
+
+#10이하의 숫자들만 곱하는 가변인수 함
+
+def mul(*nums):
+    output = 1
+    for num in nums:
+        if num <= 10:
+            output *= num
+        else:
+            pass
+    return output
+
+
+print(mul(1,5,11,3,2))
+print(mul(2, 3, 4, 5))
+print(mul(3, 12, 10))
+
